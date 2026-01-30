@@ -1,12 +1,19 @@
 import { useState } from "react";
 
 interface Props {
-  onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   setAlias: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  doAction: () => void;
+  checkSubmitButtonStatus: () => boolean;
 }
 
 const AuthenticationFields = (props: Props) => {
+  const actionOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key == "Enter" && !props.checkSubmitButtonStatus()) {
+      props.doAction();
+    }
+  };
+
   return (
     <>
       <div className="form-floating">
@@ -16,7 +23,7 @@ const AuthenticationFields = (props: Props) => {
           size={50}
           id="aliasInput"
           placeholder="name@example.com"
-          onKeyDown={props.onKeyDown}
+          onKeyDown={actionOnEnter}
           onChange={(event) => props.setAlias(event.target.value)}
         />
         <label htmlFor="aliasInput">Alias</label>
@@ -27,7 +34,7 @@ const AuthenticationFields = (props: Props) => {
           className="form-control"
           id="passwordInput"
           placeholder="Password"
-          onKeyDown={props.onKeyDown}
+          onKeyDown={actionOnEnter}
           onChange={(event) => props.setPassword(event.target.value)}
         />
         <label htmlFor="passwordInput">Password</label>

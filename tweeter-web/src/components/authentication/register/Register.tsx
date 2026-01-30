@@ -160,9 +160,10 @@ const Register = () => {
           <label htmlFor="lastNameInput">Last Name</label>
         </div>
         <AuthenticationFields
-          onKeyDown={registerOnEnter}
           setAlias={setAlias}
           setPassword={setPassword}
+          doAction={doRegister}
+          checkSubmitButtonStatus={checkSubmitButtonStatus}
         />
         <div className="form-floating mb-3">
           <input
