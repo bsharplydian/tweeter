@@ -3,9 +3,7 @@ import { useContext } from "react";
 import { UserInfoContext, UserInfoActionsContext } from "./UserInfoContexts";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ToastActionsContext } from "../toaster/ToastContexts";
 import { AuthToken, FakeData, User } from "tweeter-shared";
-import { ToastType } from "../toaster/Toast";
 import { useMessageActions } from "../toaster/MessageHooks";
 
 const UserInfo = () => {
