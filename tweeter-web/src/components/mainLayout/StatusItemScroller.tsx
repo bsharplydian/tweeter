@@ -6,11 +6,10 @@ import {
 import { AuthToken, FakeData, Status, User } from "tweeter-shared";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ToastActionsContext } from "../toaster/ToastContexts";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ToastType } from "../toaster/Toast";
 import Post from "../statusItem/Post";
 import StatusItem from "../statusItem/StatusItem";
+import { useMessageActions } from "../toaster/MessageHooks";
 
 export const PAGE_SIZE = 10;
 
@@ -26,7 +25,7 @@ interface Props {
 }
 
 const StatusItemScroller = (props: Props) => {
-  const { displayToast } = useContext(ToastActionsContext);
+  const { displayErrorMessage } = useMessageActions();
   const [items, setItems] = useState<Status[]>([]);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [lastItem, setLastItem] = useState<Status | null>(null);
@@ -79,11 +78,38 @@ const StatusItemScroller = (props: Props) => {
       setLastItem(() => newItems[newItems.length - 1]);
       addItems(newItems);
     } catch (error) {
-      displayToast(
-        ToastType.Error,
-        `Failed to load ${props.itemDescription} items because of exception: ${error}`,
-        0,
+      displayErrorMessage(
+        `Failed to load feed items because of exception: ${error}`,
       );
+    }
+  };
+
+  const loadMoreFeedItems = async (
+    authToken: AuthToken,
+    userAlias: string,
+    pageSize: number,
+    lastItem: Status | null,
+  ): Promise<[Status[], boolean]> => {
+    // TODO: Replace with the result of calling server
+    return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
+  };
+
+  const navigateToUser = async (event: React.MouseEvent): Promise<void> => {
+    event.preventDefault();
+
+    try {
+      const alias = extractAlias(event.target.toString());
+
+      const toUser = await getUser(authToken!, alias);
+
+      if (toUser) {
+        if (!toUser.equals(displayedUser!)) {
+          setDisplayedUser(toUser);
+          navigate(`/feed/${toUser.alias}`);
+        }
+      }
+    } catch (error) {
+      displayErrorMessage(`Failed to get user because of exception: ${error}`);
     }
   };
 
