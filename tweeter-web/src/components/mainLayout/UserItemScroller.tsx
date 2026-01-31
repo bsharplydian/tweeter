@@ -77,7 +77,7 @@ const UserItemScroller = (props: Props) => {
       addItems(newItems);
     } catch (error) {
       displayErrorMessage(
-        `Failed to load followees because of exception: ${error}`,
+        `Failed to load ${props.itemDescription} because of exception: ${error}`,
       );
     }
   };
