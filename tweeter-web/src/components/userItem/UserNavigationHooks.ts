@@ -36,9 +36,7 @@ export const useUserNavigation = (): ((
   };
 
   const extractFeaturePath = (value: string): string => {
-    console.log(value);
     const regexFinder = /\/followees|\/followers|\/feed|\/story/.exec(value);
-    console.log(regexFinder);
     const index = regexFinder?.index;
     if (index == undefined) {
       return "/feed";
