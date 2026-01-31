@@ -91,6 +91,7 @@ const AuthenticatedRoutes = () => {
           path="feed/:displayedUser"
           element={
             <StatusItemScroller
+              key={`feed-${displayedUser!.alias}`}
               itemDescription="feed"
               featureUrl="/feed"
               loadMore={loadMoreFeedItems}
@@ -101,6 +102,7 @@ const AuthenticatedRoutes = () => {
           path="story/:displayedUser"
           element={
             <StatusItemScroller
+              key={`story-${displayedUser!.alias}`}
               itemDescription="story"
               featureUrl="/story"
               loadMore={loadMoreStoryItems}
