@@ -94,25 +94,6 @@ const StatusItemScroller = (props: Props) => {
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   };
 
-  const navigateToUser = async (event: React.MouseEvent): Promise<void> => {
-    event.preventDefault();
-
-    try {
-      const alias = extractAlias(event.target.toString());
-
-      const toUser = await getUser(authToken!, alias);
-
-      if (toUser) {
-        if (!toUser.equals(displayedUser!)) {
-          setDisplayedUser(toUser);
-          navigate(`/feed/${toUser.alias}`);
-        }
-      }
-    } catch (error) {
-      displayErrorMessage(`Failed to get user because of exception: ${error}`);
-    }
-  };
-
   const getUser = async (
     authToken: AuthToken,
     alias: string,
