@@ -10,6 +10,7 @@ export const useUserNavigation = (): ((
   const { displayedUser, authToken } = useUserInfo();
   const { setDisplayedUser } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
+
   const navigateToUser = async (event: React.MouseEvent): Promise<void> => {
     event.preventDefault();
 
